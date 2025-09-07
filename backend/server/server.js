@@ -47,5 +47,16 @@ app.get("/products", async (req, res) => {
     }
   });
   
+// Get single product
+app.get("/products/:asin", async (req, res) => {
+    try {
+      const product = await Product.findOne({ asin: req.params.asin });
+      if (!product) return res.status(404).json({ error: "Not found" });
+      res.json(product);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
