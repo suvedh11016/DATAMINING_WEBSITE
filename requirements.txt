@@ -1,0 +1,24 @@
+# For data processing
+numpy>=1.24.0
+pandas>=2.1.0
+
+# For text processing
+beautifulsoup4>=4.12.2
+lxml>=4.9.3
+html5lib>=1.1
+
+# For gzip/json reading
+tqdm>=4.66.1
+
+# For NLP & similarity
+nltk>=3.8.1
+scikit-learn>=1.3.0
+
+# For evaluation metrics (MAP, precision)
+rouge-score>=0.1.2
+
+# Optional for faster JSON parsing
+ujson>=5.8.0
+
+# For general utilities
+python-dotenv>=1.0.0
