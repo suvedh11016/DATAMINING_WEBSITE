@@ -7,7 +7,7 @@ import Product from "../models/product.model.js";
 
 dotenv.config();
 
-const DATASET_PATH = "./data/meta_Appliances.json.gz";
+const DATASET_PATH = "../data/meta_Appliances.json.gz";
 
 const connectDB = async () => {
   try {

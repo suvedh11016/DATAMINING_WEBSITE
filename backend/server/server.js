@@ -27,14 +27,42 @@ mongoose.connect(MONGO_URI)
 //   }
 // });
 // GET /products?page=1&limit=50
+// app.get("/products", async (req, res) => {
+//     try {
+//       const page = parseInt(req.query.page) || 1;
+//       const limit = parseInt(req.query.limit) || 48;
+//       const skip = (page - 1) * limit;
+  
+//       const products = await Product.find().skip(skip).limit(limit);
+//       const total = await Product.countDocuments(); // total products for frontend pagination
+  
+//       res.json({
+//         products,
+//         total,
+//         page,
+//         totalPages: Math.ceil(total / limit),
+//       });
+//     } catch (err) {
+//       res.status(500).json({ error: err.message });
+//     }
+//   });
+
+// GET /products?page=1&limit=50&search=keyword
 app.get("/products", async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 48;
       const skip = (page - 1) * limit;
+      const search = req.query.search || "";
   
-      const products = await Product.find().skip(skip).limit(limit);
-      const total = await Product.countDocuments(); // total products for frontend pagination
+      let filter = {};
+      if (search) {
+        // Search on 'title' field with regex
+        filter = { title: { $regex: search, $options: "i" } };
+      }
+  
+      const products = await Product.find(filter).skip(skip).limit(limit);
+      const total = await Product.countDocuments(filter); // total products after search
   
       res.json({
         products,
@@ -46,6 +74,7 @@ app.get("/products", async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   });
+  
   
 // Get single product
 app.get("/products/:asin", async (req, res) => {
