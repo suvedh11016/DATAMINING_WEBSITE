@@ -21,6 +21,7 @@ const productSchema = new mongoose.Schema(
     main_cat: { type: String }, // Main category
     fit: { type: String }, // Fit information (clothes, etc.)
     details: mongoose.Schema.Types.Mixed, // Extra details object (if present)
+    similar_asins: [{ type: String }], // Similar product list
   },
   { timestamps: true, strict: false }
 );
