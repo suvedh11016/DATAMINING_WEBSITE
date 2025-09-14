@@ -74,7 +74,7 @@ const ProductCard = ({ product, onViewMore }) => {
         )}
       </h3>
       <p>
-        <b>Price:</b> {product.price?.startsWith("$") ? product.price : "N/A"}
+        <b>Price:</b> {product.price ? `$${product.price.replace(/^\$/, "")}` : "N/A"}
       </p>
       <button onClick={() => onViewMore(product.asin)}>View Details</button>
     </div>

@@ -1,0 +1,7 @@
+use cs5600
+db.products.find({});
+db.products.find({ asin: 'B00004YUMW'});
+db.products.find({similar_item_converted: { $exists: true },$expr: { $gt: [ { $size: "$similar_item_converted" }, 4 ] }});
+db.products.countDocuments({similar_asins: { $exists: true },$expr: { $gt: [ { $size: "$similar_asins" }, 7 ] }});
+db.collection.find({similar_item: { $exists: true, $not: { $size: 0 }} });
+db.dropDatabase();

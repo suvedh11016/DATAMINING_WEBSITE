@@ -234,6 +234,7 @@ app.get("/products/bulk", async (req, res) => {
 app.get("/products/:asin", async (req, res) => {
   try {
     const product = await Product.findOne({ asin: req.params.asin });
+    console.log("🔍 Fetched product:", product);
     if (!product) return res.status(404).json({ error: "Not found" });
     res.json(product);
   } catch (err) {
@@ -253,53 +254,148 @@ const jaccardSim = (sigA, sigB) => {
 };
 
 // GET /products/:asin/similar?mode=PST|PSD|PSTD
+// app.get("/products/:asin/similar", async (req, res) => {
+//   try {
+//     const { asin } = req.params;
+//     const { mode } = req.query;
+
+//     if (!["PST", "PSD", "PSTD"].includes(mode))
+//       return res.status(400).json({ error: "Invalid mode" });
+
+//     const sigDoc = await ProductSignature.findOne({ asin });
+//     if (!sigDoc) return res.status(404).json({ error: "Signature not found" });
+
+//     let sigField = "pst_sig";
+//     let bucketField = "pst_buckets";
+//     if (mode === "PSD") {
+//       sigField = "psd_sig";
+//       bucketField = "psd_buckets";
+//     } else if (mode === "PSTD") {
+//       sigField = "pstd_sig";
+//       bucketField = "pstd_buckets";
+//     }
+
+//     const targetSig = sigDoc[sigField];
+//     const targetBuckets = sigDoc[bucketField];
+
+//     const candidates = await ProductSignature.find({
+//       [bucketField]: { $in: targetBuckets },
+//     });
+
+//     const sims = candidates
+//       .filter((c) => c.asin !== asin)
+//       .map((c) => ({ asin: c.asin, sim: jaccardSim(targetSig, c[sigField]) }));
+
+//     sims.sort((a, b) => b.sim - a.sim);
+//     const top10 = sims.slice(0, 10);
+
+//     const products = await Product.find({
+//       asin: { $in: top10.map((x) => x.asin) },
+//     }).select("asin title imageURLHighRes");
+
+//     const sortedProducts = top10.map((x) =>
+//       products.find((p) => p.asin === x.asin)
+//     );
+
+//     res.json(sortedProducts);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+// GET /products/:asin/similar?topN=10
+// app.get("/products/:asin/similar", async (req, res) => {
+//   try {
+//     const { asin } = req.params;
+//     const topN = parseInt(req.query.topN) || 10;
+
+//     const sigDoc = await ProductSignature.findOne({ asin });
+//     if (!sigDoc) return res.status(404).json({ error: "Signature not found" });
+
+//     const { pst_sig, psd_sig, pstd_sig, pst_buckets, psd_buckets, pstd_buckets } = sigDoc;
+
+//     // --- Optimized candidate fetching ---
+//     const bucketQueries = [];
+//     if (pst_buckets.length) bucketQueries.push({ pst_buckets: { $in: pst_buckets } });
+//     if (psd_buckets.length) bucketQueries.push({ psd_buckets: { $in: psd_buckets } });
+//     if (pstd_buckets.length) bucketQueries.push({ pstd_buckets: { $in: pstd_buckets } });
+
+//     const candidates = await ProductSignature.find({
+//       asin: { $ne: asin },
+//       $or: bucketQueries,
+//     }).limit(500); // cap to reasonable number for large DB
+
+//     // --- Jaccard similarity ---
+//     const jaccardSim = (a, b) => {
+//       let matches = 0;
+//       for (let i = 0; i < a.length; i++) if (a[i] === b[i]) matches++;
+//       return (matches + 1) / (a.length + 2);
+//     };
+
+//     // --- Compute max similarity across PST, PSD, PSTD ---
+//     const scored = candidates.map((c) => {
+//       const pstSim = jaccardSim(pst_sig, c.pst_sig);
+//       const psdSim = jaccardSim(psd_sig, c.psd_sig);
+//       const pstdSim = jaccardSim(pstd_sig, c.pstd_sig);
+//       const maxSim = Math.max(pstSim, psdSim, pstdSim);
+//       return { asin: c.asin, pstSim, psdSim, pstdSim, maxSim };
+//     });
+
+//     // --- Sort and pick top N ---
+//     scored.sort((a, b) => b.maxSim - a.maxSim);
+//     const topCandidates = scored.slice(0, topN);
+
+//     // --- Fetch actual Product docs and preserve order ---
+//     const products = await Product.find({
+//       asin: { $in: topCandidates.map((x) => x.asin) },
+//     }).select("asin title imageURLHighRes imageURL");
+
+//     const orderedProducts = topCandidates.map((x) => products.find((p) => p.asin === x.asin));
+
+//     res.json(orderedProducts);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+// GET /products/:asin/similar?mode=pst|psd|pstd&topN=10
 app.get("/products/:asin/similar", async (req, res) => {
   try {
     const { asin } = req.params;
-    const { mode } = req.query;
+    const mode = (req.query.mode || "pstd").toLowerCase(); // default hybrid
+    const topN = parseInt(req.query.topN) || 10;
 
-    if (!["PST", "PSD", "PSTD"].includes(mode))
+    if (!["pst", "psd", "pstd"].includes(mode)) {
       return res.status(400).json({ error: "Invalid mode" });
+    }
 
+    // fetch precomputed list
     const sigDoc = await ProductSignature.findOne({ asin });
     if (!sigDoc) return res.status(404).json({ error: "Signature not found" });
 
-    let sigField = "pst_sig";
-    let bucketField = "pst_buckets";
-    if (mode === "PSD") {
-      sigField = "psd_sig";
-      bucketField = "psd_buckets";
-    } else if (mode === "PSTD") {
-      sigField = "pstd_sig";
-      bucketField = "pstd_buckets";
-    }
+    const similarList = sigDoc.similar?.[mode] || [];
+    const topSimilar = similarList.slice(0, topN);
 
-    const targetSig = sigDoc[sigField];
-    const targetBuckets = sigDoc[bucketField];
-
-    const candidates = await ProductSignature.find({
-      [bucketField]: { $in: targetBuckets },
-    });
-
-    const sims = candidates
-      .filter((c) => c.asin !== asin)
-      .map((c) => ({ asin: c.asin, sim: jaccardSim(targetSig, c[sigField]) }));
-
-    sims.sort((a, b) => b.sim - a.sim);
-    const top10 = sims.slice(0, 10);
-
+    // fetch product details
     const products = await Product.find({
-      asin: { $in: top10.map((x) => x.asin) },
-    }).select("asin title imageURLHighRes");
+      asin: { $in: topSimilar.map((x) => x.asin) },
+    }).select("asin title imageURLHighRes imageURL");
 
-    const sortedProducts = top10.map((x) =>
-      products.find((p) => p.asin === x.asin)
-    );
+    // preserve order
+    const asinMap = {};
+    products.forEach((p) => (asinMap[p.asin] = p));
+    const ordered = topSimilar.map((x) => ({
+      ...asinMap[x.asin]?._doc,
+      score: x.score,
+    })).filter(Boolean);
 
-    res.json(sortedProducts);
+    res.json(ordered);
   } catch (err) {
+    console.error("❌ Similar fetch error:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
