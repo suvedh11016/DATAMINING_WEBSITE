@@ -28,7 +28,7 @@ collection.create_index("asin", unique=True)
 print(f"Created '{DB_NAME}' database and 'products' collection with unique asin index.")
 
 # Dataset path
-DATASET_PATH = "../../data/meta_Appliances.json.gz"
+DATASET_PATH = "../data/meta_Appliances.json.gz"
 
 # ---------------- Parsers ----------------
 def extract_code_from_similar_item(html_str):
@@ -249,11 +249,11 @@ with gzip.open(DATASET_PATH, "rt", encoding="utf-8") as f:
 
             # Handle similar_item field
             similar_item_html = obj.get("similar_item", "")
-            similar_item_ids = []
+            similar_asins = []
             if isinstance(similar_item_html, str):
                 obj["similar_item"] = extract_code_from_similar_item(similar_item_html) or []
                 # Extract asins from similar_item
-                similar_item_ids = [
+                similar_asins = [
                     item.get("asin") for item in obj["similar_item"] if "asin" in item
                 ]
 
@@ -289,13 +289,13 @@ with gzip.open(DATASET_PATH, "rt", encoding="utf-8") as f:
 
                 if isinstance(also_buy, list):
                     also_buy = [str(asin) for asin in also_buy if isinstance(asin, str)]
-                    similar_item_ids.extend(also_buy)
+                    similar_asins.extend(also_buy)
                 if isinstance(also_view, list):
                     also_view = [str(asin) for asin in also_view if isinstance(asin, str)]
-                    similar_item_ids.extend(also_view)
+                    similar_asins.extend(also_view)
 
                 # Remove duplicates
-                obj["similar_item_ids"] = list(set(similar_item_ids))
+                obj["similar_asins"] = list(set(similar_asins))
 
             # Upsert into MongoDB
             if "asin" in obj:

@@ -826,9 +826,38 @@ function ProductDetails() {
   }, [asin]);
 
   // Fetch similar products when mode changes
+  // useEffect(() => {
+  //   if (!product) return;
+
+  //   const fetchSimilar = async () => {
+  //     setLoadingSimilar(true);
+  //     try {
+  //       if (mode === "similar_items") {
+  //         const similarAsins = product.similar_asins || [];
+  //         if (!similarAsins.length) return setSimilar([]);
+  //         const res = await axios.get(
+  //           `http://localhost:5000/products/bulk?asins=${similarAsins.join(",")}`
+  //         );
+  //         setSimilar(res.data || []);
+  //       } else {
+  //         const res = await axios.get(
+  //           `http://localhost:5000/products/${asin}/similar?mode=${mode.toLowerCase()}`
+  //         );
+  //         setSimilar(res.data || []);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching similar products:", err.message);
+  //       setSimilar([]);
+  //     } finally {
+  //       setLoadingSimilar(false);
+  //     }
+  //   };
+
+  //   fetchSimilar();
+  // }, [mode, product, asin]);
   useEffect(() => {
     if (!product) return;
-
+  
     const fetchSimilar = async () => {
       setLoadingSimilar(true);
       try {
@@ -840,10 +869,11 @@ function ProductDetails() {
           );
           setSimilar(res.data || []);
         } else {
+          const modeKey = mode.toLowerCase();
           const res = await axios.get(
-            `http://localhost:5000/products/${asin}/similar?mode=${mode.toLowerCase()}`
+            `http://localhost:5000/products/${asin}/similar?mode=${modeKey}`
           );
-          setSimilar(res.data || []);
+          setSimilar(res.data?.[modeKey] || []);
         }
       } catch (err) {
         console.error("Error fetching similar products:", err.message);
@@ -852,9 +882,10 @@ function ProductDetails() {
         setLoadingSimilar(false);
       }
     };
-
+  
     fetchSimilar();
   }, [mode, product, asin]);
+  
 
   if (!product) return <p>Loading product...</p>;
 

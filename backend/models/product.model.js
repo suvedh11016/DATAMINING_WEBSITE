@@ -47,7 +47,7 @@ const productSchema = new mongoose.Schema(
     tech1: { type: mongoose.Schema.Types.Mixed, default: {} }, // Technical details (varies in format)
     tech2: { type: mongoose.Schema.Types.Mixed, default: {} }, // Technical details (varies in format)
     similar_item: [{ type: mongoose.Schema.Types.Mixed, default: {} }], // Similar items (array of objects)
-    similar_item_ids: [{ type: String }], // Similar products by ASINs
+    similar_asins: [{ type: String }], // Similar products by ASINs
     date: { type: String }, // Crawl date if provided
     main_cat: { type: String }, // Main category
     fit: { type: String }, // Fit information (clothes, etc.)

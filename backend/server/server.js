@@ -363,39 +363,52 @@ const jaccardSim = (sigA, sigB) => {
 app.get("/products/:asin/similar", async (req, res) => {
   try {
     const { asin } = req.params;
-    const mode = (req.query.mode || "pstd").toLowerCase(); // default hybrid
     const topN = parseInt(req.query.topN) || 10;
 
-    if (!["pst", "psd", "pstd"].includes(mode)) {
-      return res.status(400).json({ error: "Invalid mode" });
-    }
-
-    // fetch precomputed list
+    // Fetch precomputed signature document
     const sigDoc = await ProductSignature.findOne({ asin });
+    console.log(JSON.stringify(sigDoc, null, 2));
+console.log(sigDoc.similar.pst.map(x => `${x.asin}: ${x.score}`));
+console.log(sigDoc.similar.psd.map(x => `${x.asin}: ${x.score}`));
+console.log(sigDoc.similar.pstd.map(x => `${x.asin}: ${x.score}`));
+
     if (!sigDoc) return res.status(404).json({ error: "Signature not found" });
 
-    const similarList = sigDoc.similar?.[mode] || [];
-    const topSimilar = similarList.slice(0, topN);
+    const result = {};
+    const allAsins = new Set();
 
-    // fetch product details
-    const products = await Product.find({
-      asin: { $in: topSimilar.map((x) => x.asin) },
-    }).select("asin title imageURLHighRes imageURL");
+    // Prepare top N ASINs per mode
+    ["pst", "psd", "pstd"].forEach((mode) => {
+      const list = sigDoc.similar?.[mode] || [];
+      const top = list.slice(0, topN);
+      result[mode] = top.map((x) => {
+        allAsins.add(x.asin);
+        return { asin: x.asin, score: x.score };
+      });
+    });
 
-    // preserve order
+    // Fetch product details in bulk
+    const products = await Product.find({ asin: { $in: Array.from(allAsins) } })
+      .select("asin title imageURLHighRes imageURL");
+
     const asinMap = {};
     products.forEach((p) => (asinMap[p.asin] = p));
-    const ordered = topSimilar.map((x) => ({
-      ...asinMap[x.asin]?._doc,
-      score: x.score,
-    })).filter(Boolean);
 
-    res.json(ordered);
+    // Merge product info with scores and preserve order per mode
+    ["pst", "psd", "pstd"].forEach((mode) => {
+      result[mode] = result[mode].map((x) => ({
+        ...asinMap[x.asin]?._doc, // product fields
+        score: x.score,
+      })).filter(Boolean); // remove if product not found
+    });
+
+    res.json(result);
   } catch (err) {
     console.error("❌ Similar fetch error:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

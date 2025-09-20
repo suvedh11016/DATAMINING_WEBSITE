@@ -29,11 +29,6 @@ const { Long } = mongoose.Schema.Types;
 
 const productSignatureSchema = new mongoose.Schema({
   asin: { type: String, required: true, unique: true },
-
-  pst_sig: [{ type: Number }],
-  psd_sig: [{ type: Long }],   // <-- now 64-bit
-  pstd_sig: [{ type: Number }],
-
   similar: {
     pst: [{ asin: String, score: Number }],
     psd: [{ asin: String, score: Number }],
