@@ -1,0 +1,1311 @@
+/* 
+:root {
+    --primary-red: #8B0000;   
+    --maroon: #660000;
+    --blood-red: #B22222;
+    --black: #000000;
+    --dark-gray: #1A1A1A;
+    --medium-gray: #2A2A2A;
+    --white: #FFFFFF;
+    --off-white: #F5F5F5;
+    --gold: #D4AF37; 
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--black), var(--maroon), var(--primary-red)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--off-white);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+
+  .header {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--blood-red);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo span {
+    color: var(--primary-red);
+  }
+  
+
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-links a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-red);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: var(--white);
+  }
+  
+  .nav-links a:hover:after {
+    width: 100%;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(102, 0, 0, 0.85)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    border-bottom: 1px solid var(--blood-red);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 10%, var(--black) 90%);
+    opacity: 0.7;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+  
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+  }
+  
+  .hero p {
+    font-size: 1.3rem;
+    color: var(--off-white);
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 60px 20px;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 40px 0 20px;
+    color: var(--white);
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  .section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-red), var(--gold));
+  }
+  
+  .product-card {
+    background: var(--dark-gray);
+    border: 1px solid var(--medium-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(178, 34, 34, 0.25);
+    border-color: var(--primary-red);
+  }
+  
+  .product-card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-red);
+    color: var(--white);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  .product-card-content {
+    padding: 20px;
+  }
+  
+  .product-card h2 {
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .product-card p {
+    color: var(--off-white);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .product-card-price {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, var(--primary-red), var(--blood-red));
+    color: var(--white);
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .btn:hover:before {
+    left: 100%;
+  }
+  
+  .btn:hover {
+    box-shadow: 0 5px 15px rgba(178, 34, 34, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+  }
+  
+  .btn-outline:hover {
+    background: var(--primary-red);
+    color: var(--white);
+  }
+  
+  .btn i {
+    margin-right: 8px;
+  }
+  
+
+  .product-details {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  .product-details-back {
+    margin-bottom: 30px;
+  }
+  
+  .product-details-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.95)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/bgog.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 0px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+  }
+  
+  .product-details-gallery {
+    position: relative;
+  }
+  
+  .product-details-main-image {
+    width: 100%;
+    height: 450px;
+    object-fit: contain;
+    background: var(--black);
+    padding: 20px;
+  }
+  
+  .product-details-thumbnails {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-top: 1px solid var(--medium-gray);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .product-details-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .product-details-thumbnail:hover,
+  .product-details-thumbnail.active {
+    border-color: var(--primary-red);
+  }
+  
+  .product-details-info {
+    padding: 30px;
+  }
+  
+  .product-details-title {
+    font-size: 2.2rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .product-details-price {
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  
+  .product-details-brand {
+    display: inline-block;
+    background: var(--medium-gray);
+      color: var(--blood-red);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+  
+  .product-details-description {
+      color: var(--blood-red);
+    line-height: 1.7;
+    margin-bottom: 25px;
+  }
+  
+  .product-details-features {
+    margin-bottom: 30px;
+  }
+  
+  .product-details-features h3 {
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  .product-details-features ul {
+    list-style: none;
+  }
+  
+  .product-details-features li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+      color: var(--blood-red);
+  }
+  
+  .product-details-features li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-red);
+    font-weight: bold;
+  }
+  
+  .product-details-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  
+  .gallery-nav:hover {
+    background: var(--primary-red);
+  }
+  
+  .gallery-prev {
+    left: 15px;
+  }
+  
+  .gallery-next {
+    right: 15px;
+  }
+  
+ 
+  .footer {
+    background: linear-gradient(to bottom, var(--black), rgba(0, 0, 0, 0.9)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    border-top: 1px solid var(--primary-red);
+    color: var(--off-white);
+    padding: 60px 0 30px;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .footer-column h3 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .footer-column h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-red);
+  }
+  
+  .footer-column p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links {
+    list-style: none;
+  }
+  
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+  
+  .footer-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer-links a:hover {
+    color: var(--primary-red);
+  }
+  
+  .footer-links i {
+    margin-right: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--medium-gray);
+    font-size: 0.9rem;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--medium-gray);
+    border-top: 5px solid var(--primary-red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+ 
+  .error-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.95)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    border-radius: 12px;
+  }
+  
+  .error-state i {
+    font-size: 3rem;
+    color: var(--blood-red);
+    margin-bottom: 20px;
+  }
+  
+  .error-state h2 {
+    color: var(--white);
+    margin-bottom: 15px;
+  }
+ 
+  @media (max-width: 992px) {
+    .product-details-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero h1 {
+      font-size: 2.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .hero h1 {
+      font-size: 2.2rem;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+    }
+    
+    .product-details-actions {
+      flex-direction: column;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero {
+      padding: 60px 20px;
+    }
+    
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+    
+    .product-details-title {
+      font-size: 1.8rem;
+    }
+    
+    .product-details-price {
+      font-size: 1.5rem;
+    }
+    
+    .gallery-nav {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  */
+  /* ================================
+   Global Theme - Enhanced Professional Version
+================================= */
+:root {
+    --primary-red: #8B0000;   /* Dark Red */
+    --maroon: #660000;
+    --blood-red: #B22222;
+    --black: #000000;
+    --dark-gray: #1A1A1A;
+    --medium-gray: #2A2A2A;
+    --white: #FFFFFF;
+    --off-white: #F5F5F5;
+    --gold: #D4AF37; /* Added gold accent for luxury feel */
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body Styling */
+  /* body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--black), var(--maroon), var(--primary-red)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+
+    color: var(--off-white);
+    min-height: 100vh;
+    line-height: 1.6;
+  } */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--black), var(--maroon), var(--primary-red)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+    background-blend-mode: overlay;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--off-white);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Header */
+  .header {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--blood-red);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo span {
+    color: var(--primary-red);
+  }
+  
+  /* Navigation */
+  .nav-links {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-links a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-red);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: var(--white);
+  }
+  
+  .nav-links a:hover:after {
+    width: 100%;
+  }
+  
+  /* Hero Section */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+   
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(102, 0, 0, 0.85)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+
+    border-bottom: 1px solid var(--blood-red);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 10%, var(--black) 90%);
+    opacity: 0.7;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+  
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+  }
+  
+  .hero p {
+    font-size: 1.3rem;
+    color: var(--off-white);
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+  
+  /* Product Grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 60px 20px;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 40px 0 20px;
+    color: var(--white);
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  .section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-red), var(--gold));
+  }
+  
+  /* Product Card */
+  .product-card {
+    background: var(--dark-gray);
+    border: 1px solid var(--medium-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 极 12px 25px rgba(178, 34, 34, 0.25);
+    border-color: var(--primary-red);
+  }
+  
+  .product-card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-red);
+    color: var(--white);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  
+  .product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  .product-card-content {
+    padding: 20px;
+  }
+  
+  .product-card h2 {
+    font-size: 1.4rem;
+    color: var(--white);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .product-card p {
+    color: var(--off-white);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .product-card-price {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, var(--primary-red), var(--blood-red));
+    color: var(--white);
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 极.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .btn:hover:before {
+    left: 100%;
+  }
+  
+  .btn:hover {
+    box-shadow: 0 5px 15px rgba(178, 34, 34, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-red);
+    color: var(--primary-red);
+  }
+  
+  .btn-outline:hover {
+    background: var(--primary-red);
+    color: var(--white);
+  }
+  
+  .btn i {
+    margin-right: 8px;
+  }
+  
+  /* Product Details Page */
+  .product-details {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  .product-details-back {
+    margin-bottom: 30px;
+  }
+  
+  .product-details-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    /* background: var(--dark-gray); */
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.95)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/bgog.png');
+
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  }
+  
+  .product-details-gallery {
+    position: relative;
+  }
+  
+  .product-details-main-image {
+    width: 100%;
+    height: 450px;
+    object-fit: contain;
+    background: var(--black);
+    padding: 20px;
+  }
+  
+  .product-details-thumbnails {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    border-top: 1px solid var(--medium-gray);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .product-details-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .product-details-thumbnail:hover,
+  .product-details-thumbnail.active {
+    border-color: var(--primary-red);
+  }
+  
+  .product-details-info {
+    padding: 30px;
+  }
+  
+  .product-details-title {
+    font-size: 2.2rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 
+      -2px -2px 0 var(--black),
+      2px -2px 0 var(--black),
+      -2px 2px 0 var(--black),
+      2px 2px 0 var(--black);
+  }
+  
+  .product-details-price {
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 
+      -1px -1px 0 var(--black),
+      1px -1px 0 var(--black),
+      -1px 1px 0 var(--black),
+      1px 1px 0 var(--black);
+  }
+  
+  .product-details-brand {
+    display: inline-block;
+    background: var(--medium-gray);
+    color: var(--primary-red);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+  
+  /* Glass Containers for Description and Features */
+  .glass-container {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(178, 34, 34, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glass-container h3 {
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-red);
+    padding-bottom: 10px;
+    text-shadow: 
+      -1px -1px 0 var(--black),
+      1px -1px 0 var(--black),
+      -1px 1px 0 var(--black),
+      1px 1px 0 var(--black);
+  }
+  
+  .product-details-description {
+    color: var(--blood-red);
+    line-height: 1.7;
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+  
+  .product-details-features ul {
+    list-style: none;
+  }
+  
+  .product-details-features li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    color: var(--blood-red);
+    font-weight: 500;
+  }
+  
+  .product-details-features li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--primary-red);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .product-details-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  /* Gallery Navigation Buttons */
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+  
+  .gallery-nav:hover {
+    background: var(--primary-red);
+  }
+  
+  .gallery-prev {
+    left: 15px;
+  }
+  
+  .gallery-next {
+    right: 15px;
+  }
+  
+  /* Footer */
+  .footer {
+    background: linear-gradient(to bottom, var(--black), rgba(0, 0, 0, 0.9)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+
+    /* background: var(--black); */
+    border-top: 1px solid var(--primary-red);
+    color: var(--off-white);
+    padding: 60px 0 30px;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .footer-column h3 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .footer-column h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--primary-red);
+  }
+  
+  .footer-column p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links {
+    list-style: none;
+  }
+  
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+  
+  .footer-links a {
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .footer-links a:hover {
+    color: var(--primary-red);
+  }
+  
+  .footer-links i {
+    margin-right: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--medium-gray);
+    font-size: 0.9rem;
+  }
+  
+  /* Loading State */
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--medium-gray);
+    border-top: 5px solid var(--primary-red);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Error State */
+  .error-state {
+    background: linear-gradient(to bottom, rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.95)), url('/home/sreekar/DM/DATAMINING_WEBSITE/frontend/src/components/OG.png');
+
+    text-align: center;
+    padding: 60px 20px;
+    /* background: var(--dark-gray); */
+    border-radius: 12px;
+  }
+  
+  .error-state i {
+    font-size: 3rem;
+    color: var(--blood-red);
+    margin-bottom: 20px;
+  }
+  
+  .error-state h2 {
+    color: var(--white);
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .product-details-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero h1 {
+      font-size: 2.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .hero h1 {
+      font-size: 2.2rem;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+    }
+    
+    .product-details-actions {
+      flex-direction: column;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .hero {
+      padding: 60px 20px;
+    }
+    
+    .hero h1 {
+      font-size: 1.8rem;
+    }
+    
+    .product-details-title {
+      font-size: 1.8rem;
+    }
+    
+    .product-details-price {
+      font-size: 1.5rem;
+    }
+    
+    .gallery-nav {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .glass-container {
+      padding: 20px;
+    }
+  }
