@@ -1,7 +1,13 @@
+sudo service mongod start
+mongosh #for going to database
 use cs5600
+show collections;
+db.dropDatabase();
 db.products.find({});
 db.products.find({ asin: 'B00004YUMW'});
-db.products.find({similar_item_converted: { $exists: true },$expr: { $gt: [ { $size: "$similar_item_converted" }, 4 ] }});
+db.products.find({similar_item: { $exists: true },$expr: { $gt: [ { $size: "$similar_item_converted" }, 4 ] }});
 db.products.countDocuments({similar_asins: { $exists: true },$expr: { $gt: [ { $size: "$similar_asins" }, 7 ] }});
 db.collection.find({similar_item: { $exists: true, $not: { $size: 0 }} });
-db.dropDatabase();
+db.products.find({ price: { $regex: "^[^$]" } }, { asin: 1, price: 1 })
+db.products.find({price: {$not: { $regex: "^(\\$|\\.a-box)" }}}, { asin: 1, price: 1 })
+db.products.find({}, {asin: 1, description: 1 });
